@@ -7,7 +7,7 @@ public class Monster extends Creature implements Comparable<Monster> {
     private int rank;
 
     public Monster(Color color, int rank, World world) {
-        super(color, (char) 2, world);
+        super(color, (char) 6, world);
         this.rank = rank;
     }
 
