@@ -71,6 +71,56 @@ public class Maze {
         int [][]status = new int[world.HEIGHT][world.WIDTH];
         stack.push(start);
         status[start.y][start.x] = 1;
+
+        boolean judge0 = false;
+
+        while (!stack.empty() && !judge0) {
+            Node next = stack.peek();
+            //遍历周边节点
+            boolean judge = false;
+            for(int i=0; i<4; ++i)
+            {
+                int x0 = next.x + towards[i][1];
+                int y0 = next.y + towards[i][0];
+                if(x0>=0 && x0<World.WIDTH && y0>=0 && y0<world.HEIGHT 
+                && maze[y0][x0] == 1 && status[y0][x0] == 0)
+                {//可尝试的节点
+                    status[y0][x0] = 1;
+                    stack.push(new Node(x0, y0));
+                    if(x0 == finish.x && y0 == finish.y)
+                    {//找到终点
+                        judge0 = true;
+                    }
+                    judge = true;
+                    break;
+                }
+            }
+            if(!judge){
+                stack.pop();
+            }
+        }
+
+        //把路径摆正
+        Stack<Node> route = new Stack<>();
+        if (stack.empty()) {
+            System.out.println("错误！没有路径");
+            return;
+           } else {
+            while (!stack.empty()) {
+             Node tempNode = stack.pop();  
+             route.push(tempNode);
+            }
+        }
+        
+        Node next;
+        while(!route.empty()){
+            next = route.pop();
+            plan += "" + next.y + "," + next.x + "\n";
+        }
+        return;
+        
+        /*stack.push(start);
+        status[start.y][start.x] = 1;
         while (!stack.empty()) {
             Node next = stack.pop();
             plan += "" + next.y + "," + next.x + "\n";
@@ -94,7 +144,7 @@ public class Maze {
                     }
                 }
             }
-        }
+        }*/
         /*queue.offer(start);
         status[start.y][start.x] = 1;
         while(!queue.isEmpty()){

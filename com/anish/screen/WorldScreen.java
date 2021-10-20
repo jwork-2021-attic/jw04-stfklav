@@ -18,7 +18,7 @@ public class WorldScreen implements Screen {
 
     public WorldScreen() {
         world = new World();
-        bro = new Calabash(new Color(0,191,255), 0, world);
+        bro = new Calabash(new Color(255,218,185), 0, world);
         Maze theMaze = new Maze(world);//生成迷宫
         maze = theMaze.getMaze();
         start = theMaze.getStart();
