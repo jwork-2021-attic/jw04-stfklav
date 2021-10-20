@@ -20,10 +20,15 @@ public class Thing {
         this.tile = tile;
     }
 
+    public Tile<? extends Thing> getTile() {
+        return this.tile;
+    }
+
     Thing(Color color, char glyph, World world) {
         this.color = color;
         this.glyph = glyph;
         this.world = world;
+        this.tile = null;
     }
 
     private final Color color;

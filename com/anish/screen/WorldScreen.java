@@ -3,23 +3,55 @@ package com.anish.screen;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
-import com.anish.maze.Calabash;
-import com.anish.maze.World;
-import com.anish.maze.Maze;
+import com.anish.maze.*;
 
 import asciiPanel.AsciiPanel;
 
 public class WorldScreen implements Screen {
 
     private World world;
-    private Maze theMaze;
     String[] walkSteps;
+    private Calabash bro;
+    private int[][] maze;
+    private Node start;
+    private Node finish;
 
     public WorldScreen() {
         world = new World();
-        theMaze = new Maze(world);
+        bro = new Calabash(new Color(0,191,255), 0, world);
+        Maze theMaze = new Maze(world);//生成迷宫
+        maze = theMaze.getMaze();
+        start = theMaze.getStart();
+        finish = theMaze.getFinish();
+
+        theMaze.solve();
+        
+        walkSteps = this.parsePlan(theMaze.getPlan());
     }
 
+    private String[] parsePlan(String plan) {
+        return plan.split("\n");
+    }
+
+    private void execute(String step) {
+        String[] couple = step.split(",");
+
+        if(bro.getTile() != null){  
+            if(bro.getX() == start.x && bro.getY() == start.y){
+                world.put(new Flag(new Color(0,255,0), world), start.x, start.y);
+            }else{
+                world.put(new Floor(new Color(0,255,0), this.world), bro.getX(), bro.getY());
+            }
+        }
+        int nextX = Integer.parseInt(couple[1]);
+        int nextY = Integer.parseInt(couple[0]);
+        if(nextX == finish.x && nextY == finish.y){//最后一步把红心换成结束标志
+            world.put(new Creature(new Color(0,255,0), (char)14, world), nextX, nextY);
+        }else{
+            world.put(bro, nextX, nextY);
+        }
+        
+    }
     @Override
     public void displayOutput(AsciiPanel terminal) {
 
@@ -37,7 +69,7 @@ public class WorldScreen implements Screen {
     @Override
     public Screen respondToUserInput(KeyEvent key) {
         if (index < this.walkSteps.length) {
-            //this.execute(bros, sortSteps[i]);
+            this.execute(walkSteps[index]);
             index++;
         }
         return this;

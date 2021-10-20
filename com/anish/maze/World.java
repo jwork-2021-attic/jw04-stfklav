@@ -29,44 +29,6 @@ public class World {
     }
 
     public void put(Thing t, int x, int y) {
-        this.tiles[x][y].setThing(t);
+        this.tiles[x][y].setThing(t);//先放横坐标
     }
-
-    public void setMaze(){
-        MazeGenerator mazeGenerator = new MazeGenerator(HEIGHT);
-        mazeGenerator.generateMaze();
-
-        int [][]maze = mazeGenerator.getMaze();
-        for(int i = 0; i<HEIGHT; ++i)
-        {
-            for(int j = 0; j< WIDTH; ++j)
-            {
-                if(maze[i][j] == 1){
-                    this.put(new Floor(this), i, j);
-                }
-            }
-        }
-        Random random = new Random();
-        int temp = random.nextInt(WIDTH);
-        if(maze[0][temp] == 1){
-            this.put(new Flag(new Color(0,255,0), this), 0, temp);
-        }else{
-            while(maze[0][temp] != 1){
-                temp = (temp+1) % WIDTH;
-            }
-            this.put(new Flag(new Color(0,255,0), this), 0, temp);
-        }
-
-        temp = random.nextInt(WIDTH);
-        if(maze[HEIGHT - 1][temp] == 1){
-            this.put(new Flag(new Color(220,20,60), this), HEIGHT - 1, temp);
-        }else{
-            while(maze[HEIGHT - 1][temp] != 1){
-                temp = (temp+1) % WIDTH;
-            }
-            this.put(new Flag(new Color(220,20,60), this), HEIGHT - 1, temp);
-        }
-
-    }
-
 }
