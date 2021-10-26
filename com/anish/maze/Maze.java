@@ -58,7 +58,8 @@ public class Maze {
         }
         finish = new Node(temp, world.HEIGHT - 1);
     }
-    
+
+
     private String plan = "";
 
     //上下左右四个方向

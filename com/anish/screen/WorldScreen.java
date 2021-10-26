@@ -64,6 +64,21 @@ public class WorldScreen implements Screen {
         }
     }
 
+    public void reset()
+    {//重置原来生成的迷宫
+        for(int i = 0; i<World.HEIGHT; ++i)
+        {
+            for(int j = 0; j< World.WIDTH; ++j)
+            {
+                if(maze[i][j] == 1){
+                    world.put(new Floor(new Color(128,128,128), this.world), j, i);
+                }
+            }
+            world.put(new Flag(new Color(0,255,0), world), start.x, start.y);
+            world.put(new Flag(new Color(220,20,60), world), finish.x, finish.y);
+        }
+    }
+
     private int index = 0;
 
     @Override
@@ -71,6 +86,12 @@ public class WorldScreen implements Screen {
         if (index < this.walkSteps.length) {
             this.execute(walkSteps[index]);
             index++;
+        }
+        else
+        {
+            index = 0;
+            bro = new Calabash(new Color(255,218,185), 0, world);
+            reset();
         }
         return this;
     }
